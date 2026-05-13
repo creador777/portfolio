@@ -181,16 +181,13 @@
      HERO — logo completo de fondo + scrim glassmorphism para texto
   ═══════════════════════════════════════════════════════════ */
   header.hero{
-    padding: 0 0 clamp(80px, 12vw, 140px);
+    padding: 0 0 clamp(60px, 10vw, 110px);
     position:relative;
     isolation:isolate;
     overflow:hidden;
     min-height: 88dvh;
     display:flex;
-    flex-direction:column;
-    justify-content:flex-end;
-    align-items:stretch;
-    gap: clamp(40px, 7vw, 90px);
+    align-items:flex-end;
   }
   /* Logo en CONTAIN, se ve completo, con fade suave arriba y abajo */
   header.hero::before{
@@ -293,6 +290,19 @@
     border-radius: 14px;
     padding: 24px 20px;
     border-top: none;
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     TERMINAL SECTION — fondo negro sólido, debajo del logo
+  ═══════════════════════════════════════════════════════════ */
+  .terminal-section{
+    background: #000;
+    padding: clamp(50px, 8vw, 100px) 0;
+    position: relative;
+    z-index: 1;
+  }
+  .terminal-section .hero-terminal{
+    margin: 0 auto;
   }
 
   /* ═══════════════════════════════════════════════════════════
@@ -973,7 +983,12 @@
     </p>
   </div>
 
-  <div class="container hero-term-section">
+  <div class="hero-divider" aria-hidden="true"></div>
+</header>
+
+<!-- TERMINAL — fuera del hero, fondo negro sólido ──────────── -->
+<section class="terminal-section">
+  <div class="container">
     <div class="hero-terminal" role="presentation">
       <div class="terminal-header">
         <div class="dots"><span></span><span></span><span></span></div>
@@ -1004,9 +1019,7 @@
       </div>
     </div>
   </div>
-
-  <div class="hero-divider" aria-hidden="true"></div>
-</header>
+</section>
 
 <!-- PARA QUIÉN ES ─────────────────────────────── -->
 <section class="for-who">
