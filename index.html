@@ -187,7 +187,10 @@
     overflow:hidden;
     min-height: 88dvh;
     display:flex;
-    align-items:flex-end;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:stretch;
+    gap: clamp(40px, 7vw, 90px);
   }
   /* Logo en CONTAIN, se ve completo, con fade suave arriba y abajo */
   header.hero::before{
@@ -296,7 +299,7 @@
      TERMINAL — estilo console/matrix para stats
   ═══════════════════════════════════════════════════════════ */
   .hero-terminal{
-    margin-top: 32px;
+    margin: 0;
     max-width: 560px;
     background: oklch(7% 0.005 280 / 0.88);
     border: 1px solid oklch(78% 0.13 80 / 0.35);
@@ -968,8 +971,10 @@
       Hago páginas web para negocios, artistas, creadores y músicos en Puerto Rico.
       Diseñadas a mano, una por una. Sin plantillas.
     </p>
+  </div>
 
-    <div class="hero-terminal reveal" role="presentation">
+  <div class="container hero-term-section">
+    <div class="hero-terminal" role="presentation">
       <div class="terminal-header">
         <div class="dots"><span></span><span></span><span></span></div>
         <div class="title">~ vdesing — bash</div>
@@ -999,6 +1004,7 @@
       </div>
     </div>
   </div>
+
   <div class="hero-divider" aria-hidden="true"></div>
 </header>
 
