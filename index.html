@@ -126,11 +126,28 @@
   ═══════════════════════════════════════════════════════════ */
   nav{
     position:sticky;top:3px;z-index:50;
-    backdrop-filter: blur(20px) saturate(140%);
-    background: oklch(11% 0.01 280 / 0.72);
-    border-bottom:1px solid var(--line);
+    background: transparent;
+    border-bottom:1px solid transparent;
+    transition: background .35s ease, border-color .35s ease, backdrop-filter .35s ease;
   }
-  .nav-row{display:flex;align-items:center;justify-content:center;padding:14px 0;gap:14px}
+  nav.is-scrolled{
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    background: oklch(11% 0.01 280 / 0.72);
+    border-bottom-color: var(--line);
+  }
+  .nav-row{display:flex;align-items:center;justify-content:flex-start;padding:14px 0;gap:14px}
+  .brand{
+    opacity:0;
+    transform: translateY(-6px);
+    transition: opacity .35s ease, transform .35s ease;
+    pointer-events:none;
+  }
+  nav.is-scrolled .brand{
+    opacity:1;
+    transform: translateY(0);
+    pointer-events:auto;
+  }
   .brand{display:flex;align-items:center;gap:11px;font-weight:600;letter-spacing:.01em}
   .brand .mark{
     width:36px;height:36px;border-radius:11px;
@@ -1342,6 +1359,14 @@
       el.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
     });
   });
+
+  // ── Nav transparente sobre hero, sólido al scrollear ──
+  const nav = document.querySelector('nav');
+  if (nav){
+    const updateNav = () => nav.classList.toggle('is-scrolled', window.scrollY > 60);
+    updateNav();
+    addEventListener('scroll', updateNav, { passive: true });
+  }
 
   // ── Ocultar FAB de WhatsApp mientras el hero está visible ──
   const fab = document.querySelector('.fab');
