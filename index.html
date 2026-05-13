@@ -161,88 +161,123 @@
   .nav-cta svg{width:16px;height:16px;fill:#fff}
 
   /* ═══════════════════════════════════════════════════════════
-     HERO — logo de fondo inmersivo con fade premium hacia abajo
+     HERO — logo completo de fondo + scrim glassmorphism para texto
   ═══════════════════════════════════════════════════════════ */
   header.hero{
-    padding: clamp(60px, 9vw, 110px) 0 clamp(120px, 18vw, 200px);
+    padding: clamp(40px, 6vw, 80px) 0 clamp(140px, 20vw, 220px);
     position:relative;
     isolation:isolate;
     overflow:hidden;
-    min-height: 92dvh;
+    min-height: 100dvh;
+    display:flex;
+    align-items:center;
   }
-  /* Logo de fondo cubriendo todo el hero */
+  /* Logo en CONTAIN, se ve completo, con fade suave arriba y abajo */
   header.hero::before{
     content:"";
     position:absolute;
-    inset:0;
+    inset: 0;
     background-image: url('vdesinglogo.png');
-    background-size: cover;
-    background-position: center 38%;
+    background-size: min(95%, 1100px) auto;
+    background-position: center center;
     background-repeat: no-repeat;
-    opacity:.65;
-    filter: contrast(1.08) saturate(1.18);
-    /* Mask para que se desvanezca suavemente en el borde inferior */
+    opacity:.72;
+    filter:
+      contrast(1.06)
+      saturate(1.12)
+      drop-shadow(0 30px 60px oklch(0% 0 0 / 0.4));
     -webkit-mask-image: linear-gradient(180deg,
-      #000 0%,
-      #000 55%,
-      rgba(0,0,0,0.55) 78%,
+      transparent 0%,
+      #000 8%,
+      #000 72%,
+      rgba(0,0,0,0.45) 90%,
       transparent 100%);
     mask-image: linear-gradient(180deg,
-      #000 0%,
-      #000 55%,
-      rgba(0,0,0,0.55) 78%,
+      transparent 0%,
+      #000 8%,
+      #000 72%,
+      rgba(0,0,0,0.45) 90%,
       transparent 100%);
-    z-index:-1;
-    animation: bg-breathe 14s ease-in-out infinite;
+    z-index:-2;
+    animation: bg-breathe 16s ease-in-out infinite;
   }
   @keyframes bg-breathe{
     0%, 100% { transform: scale(1) translateY(0) }
-    50% { transform: scale(1.04) translateY(-4px) }
+    50% { transform: scale(1.03) translateY(-3px) }
   }
-  /* Fade premium en la transición al fondo normal */
+  /* Scrim radial — oscurece la zona del texto sin tapar el logo */
   header.hero::after{
     content:"";
     position:absolute;
-    bottom:-2px;left:0;right:0;
-    height:38%;
+    inset:0;
     background:
-      linear-gradient(180deg, transparent 0%, var(--bg) 92%),
+      radial-gradient(ellipse 55% 65% at 28% 52%,
+        oklch(11% 0.01 280 / 0.72) 0%,
+        oklch(11% 0.01 280 / 0.35) 40%,
+        transparent 72%),
+      linear-gradient(180deg,
+        transparent 0%,
+        transparent 55%,
+        oklch(11% 0.01 280 / 0.4) 80%,
+        var(--bg) 98%),
       radial-gradient(ellipse at center bottom,
-        oklch(60% 0.22 305 / 0.18) 0%,
-        transparent 60%);
+        oklch(60% 0.22 305 / 0.15) 0%,
+        transparent 55%);
     pointer-events:none;
     z-index:-1;
   }
-  /* Línea decorativa de transición justo donde termina el logo */
+  /* Línea decorativa que marca el final del hero */
   .hero-divider{
     position:absolute;
-    bottom: 18%;
+    bottom: clamp(60px, 10vw, 110px);
     left:50%;
     transform:translateX(-50%);
-    width: clamp(60px, 12vw, 120px);
+    width: clamp(80px, 14vw, 160px);
     height:1px;
     background: linear-gradient(90deg,
       transparent,
       var(--gold) 50%,
       transparent);
     z-index:1;
-    opacity:.6;
+    opacity:.7;
   }
   .hero-divider::before, .hero-divider::after{
     content:"";
     position:absolute;
     top:50%;
-    width:4px;height:4px;border-radius:50%;
+    width:5px;height:5px;border-radius:50%;
     background: var(--gold);
-    box-shadow: 0 0 12px var(--gold);
+    box-shadow: 0 0 14px var(--gold), 0 0 28px oklch(78% 0.13 80 / 0.5);
     transform:translateY(-50%);
   }
   .hero-divider::before{ left:-2px }
   .hero-divider::after{ right:-2px }
-  /* Text shadow sutil para legibilidad sobre el logo */
-  header.hero h1,
+
+  /* Glassmorphism + text-shadow halo para legibilidad pro */
+  header.hero .eyebrow{
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    background: oklch(78% 0.13 80 / 0.10);
+    border-color: oklch(78% 0.13 80 / 0.35);
+  }
+  header.hero h1{
+    text-shadow:
+      0 1px 2px oklch(0% 0 0 / 0.6),
+      0 4px 20px oklch(0% 0 0 / 0.55),
+      0 0 60px oklch(0% 0 0 / 0.3);
+  }
   header.hero .lede{
-    text-shadow: 0 2px 30px oklch(0% 0 0 / 0.5);
+    text-shadow:
+      0 1px 3px oklch(0% 0 0 / 0.7),
+      0 2px 14px oklch(0% 0 0 / 0.5);
+  }
+  header.hero .hero-stats{
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background: oklch(11% 0.01 280 / 0.35);
+    border-radius: 14px;
+    padding: 24px 20px;
+    border-top: none;
   }
   @supports (animation-timeline: scroll()){
     header.hero .hero-inner{
