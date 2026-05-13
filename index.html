@@ -375,39 +375,33 @@
   .service p{margin:0;color:var(--text-dim);font-size:14.5px}
 
   /* ═══════════════════════════════════════════════════════════
-     PORTFOLIO — PINNED HORIZONTAL SCROLL (signature effect)
+     PORTFOLIO — horizontal swipe natural con scroll-snap
   ═══════════════════════════════════════════════════════════ */
-  .portfolio-pin{
-    position:relative;
+  .portfolio-scroll{
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: oklch(78% 0.13 80 / 0.4) transparent;
+    padding: 20px 0 30px;
+    margin: 0 -22px;
+    scroll-padding: 0 22px;
   }
-  @supports (animation-timeline: scroll()){
-    .portfolio-pin{ height: 320vh; }
-    .portfolio-sticky{
-      position:sticky;top:0;height:100vh;
-      display:flex;align-items:center;overflow:hidden;
-    }
-    .portfolio-rail{
-      display:flex;gap:24px;padding:0 22px;
-      animation: rail-scroll linear;
-      animation-timeline: scroll(nearest);
-      animation-range: contain 0% contain 100%;
-      will-change: transform;
-    }
-    @keyframes rail-scroll{
-      to { transform: translateX(calc(-100% + 100vw)) }
-    }
+  .portfolio-scroll::-webkit-scrollbar{height:6px}
+  .portfolio-scroll::-webkit-scrollbar-track{background:transparent}
+  .portfolio-scroll::-webkit-scrollbar-thumb{
+    background: oklch(78% 0.13 80 / 0.4);border-radius:999px;
   }
-  /* fallback grid for browsers sin scroll-timeline */
-  @supports not (animation-timeline: scroll()){
-    .portfolio-sticky{padding:0}
-    .portfolio-rail{
-      display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-      gap:18px;padding:0;
-    }
+  .portfolio-scroll::-webkit-scrollbar-thumb:hover{background: var(--gold)}
+  .portfolio-rail{
+    display:flex;gap:20px;
+    padding: 0 22px;
+    width: max-content;
   }
-
   .project{
-    flex:0 0 clamp(280px, 32vw, 380px);
+    flex:0 0 clamp(280px, 82vw, 360px);
+    scroll-snap-align: start;
     background:var(--surface);
     border:1px solid var(--line);
     border-radius:var(--radius);
@@ -652,10 +646,7 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
-    .aurora, .marquee-track, .portfolio-rail, .word{animation: none !important; opacity:1 !important; transform:none !important}
-    .portfolio-pin{height:auto}
-    .portfolio-sticky{position:static;height:auto;display:block}
-    .portfolio-rail{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;padding:0}
+    .aurora, .marquee-track, .word{animation: none !important; opacity:1 !important; transform:none !important}
   }
 </style>
 </head>
@@ -838,13 +829,13 @@
       <p>Todo lo que ves aquí lo hice yo — desde la primera línea hasta el sitio en vivo. Negocios y proyectos reales en Puerto Rico.</p>
     </div>
     <div class="portfolio-hint reveal">
-      <span>Scroll para ver →</span>
+      <span>Desliza para ver →</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
     </div>
   </div>
 
-  <div class="portfolio-pin">
-    <div class="portfolio-sticky">
+  <div class="container portfolio-scroll-wrap">
+    <div class="portfolio-scroll">
       <div class="portfolio-rail">
 
         <article class="project">
@@ -918,7 +909,7 @@
               <span class="tag">Formularios</span><span class="tag">Cálculos</span><span class="tag">Reportes</span>
             </div>
             <div class="actions">
-              <a href="#contacto" data-cursor>Pedir demo</a>
+              <a href="#contacto">Pedir demo</a>
             </div>
           </div>
         </article>
