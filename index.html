@@ -161,29 +161,88 @@
   .nav-cta svg{width:16px;height:16px;fill:#fff}
 
   /* ═══════════════════════════════════════════════════════════
-     BRAND EMBLEM — logo VDesing (imagen real)
-  ═══════════════════════════════════════════════════════════ */
-  .brand-emblem{
-    display:block;
-    width: clamp(260px, 40vw, 400px);
-    height: auto;
-    margin: 0 auto 40px;
-    filter:
-      drop-shadow(0 30px 50px oklch(0% 0 0 / 0.5))
-      drop-shadow(0 0 30px oklch(60% 0.22 305 / 0.25));
-    animation: emblem-float 6s ease-in-out infinite;
-  }
-  @keyframes emblem-float{
-    0%, 100% { transform: translateY(0) }
-    50% { transform: translateY(-8px) }
-  }
-
-  /* ═══════════════════════════════════════════════════════════
-     HERO — parallax & telescoping
+     HERO — logo de fondo inmersivo con fade premium hacia abajo
   ═══════════════════════════════════════════════════════════ */
   header.hero{
-    padding:clamp(80px,12vw,140px) 0 80px;
+    padding: clamp(60px, 9vw, 110px) 0 clamp(120px, 18vw, 200px);
     position:relative;
+    isolation:isolate;
+    overflow:hidden;
+    min-height: 92dvh;
+  }
+  /* Logo de fondo cubriendo todo el hero */
+  header.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image: url('vdesinglogo.png');
+    background-size: cover;
+    background-position: center 38%;
+    background-repeat: no-repeat;
+    opacity:.65;
+    filter: contrast(1.08) saturate(1.18);
+    /* Mask para que se desvanezca suavemente en el borde inferior */
+    -webkit-mask-image: linear-gradient(180deg,
+      #000 0%,
+      #000 55%,
+      rgba(0,0,0,0.55) 78%,
+      transparent 100%);
+    mask-image: linear-gradient(180deg,
+      #000 0%,
+      #000 55%,
+      rgba(0,0,0,0.55) 78%,
+      transparent 100%);
+    z-index:-1;
+    animation: bg-breathe 14s ease-in-out infinite;
+  }
+  @keyframes bg-breathe{
+    0%, 100% { transform: scale(1) translateY(0) }
+    50% { transform: scale(1.04) translateY(-4px) }
+  }
+  /* Fade premium en la transición al fondo normal */
+  header.hero::after{
+    content:"";
+    position:absolute;
+    bottom:-2px;left:0;right:0;
+    height:38%;
+    background:
+      linear-gradient(180deg, transparent 0%, var(--bg) 92%),
+      radial-gradient(ellipse at center bottom,
+        oklch(60% 0.22 305 / 0.18) 0%,
+        transparent 60%);
+    pointer-events:none;
+    z-index:-1;
+  }
+  /* Línea decorativa de transición justo donde termina el logo */
+  .hero-divider{
+    position:absolute;
+    bottom: 18%;
+    left:50%;
+    transform:translateX(-50%);
+    width: clamp(60px, 12vw, 120px);
+    height:1px;
+    background: linear-gradient(90deg,
+      transparent,
+      var(--gold) 50%,
+      transparent);
+    z-index:1;
+    opacity:.6;
+  }
+  .hero-divider::before, .hero-divider::after{
+    content:"";
+    position:absolute;
+    top:50%;
+    width:4px;height:4px;border-radius:50%;
+    background: var(--gold);
+    box-shadow: 0 0 12px var(--gold);
+    transform:translateY(-50%);
+  }
+  .hero-divider::before{ left:-2px }
+  .hero-divider::after{ right:-2px }
+  /* Text shadow sutil para legibilidad sobre el logo */
+  header.hero h1,
+  header.hero .lede{
+    text-shadow: 0 2px 30px oklch(0% 0 0 / 0.5);
   }
   @supports (animation-timeline: scroll()){
     header.hero .hero-inner{
@@ -755,7 +814,6 @@
 <!-- HERO ────────────────────────────────────────── -->
 <header class="hero" id="top">
   <div class="container hero-inner">
-    <img class="brand-emblem" src="vdesinglogo.png" alt="VDesing — logo" />
     <span class="eyebrow"><span class="dot"></span>Disponible para nuevos proyectos</span>
     <h1>
       <span class="word">Tu</span> <span class="word">sitio,</span><br>
@@ -780,6 +838,7 @@
       <div class="stat reveal"><div class="num">PR 🇵🇷</div><div class="lbl">Trabajo local</div></div>
     </div>
   </div>
+  <div class="hero-divider" aria-hidden="true"></div>
 </header>
 
 <!-- PARA QUIÉN ES ─────────────────────────────── -->
