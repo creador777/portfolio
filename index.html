@@ -164,11 +164,11 @@
      HERO — logo completo de fondo + scrim glassmorphism para texto
   ═══════════════════════════════════════════════════════════ */
   header.hero{
-    padding: clamp(40px, 6vw, 80px) 0 clamp(140px, 20vw, 200px);
+    padding: 0 0 clamp(80px, 12vw, 140px);
     position:relative;
     isolation:isolate;
     overflow:hidden;
-    min-height: 100dvh;
+    min-height: 88dvh;
     display:flex;
     align-items:flex-end;
   }
@@ -187,17 +187,15 @@
       saturate(1.12)
       drop-shadow(0 30px 60px oklch(0% 0 0 / 0.4));
     -webkit-mask-image: linear-gradient(180deg,
-      transparent 0%,
-      #000 6%,
-      #000 50%,
-      rgba(0,0,0,0.4) 72%,
-      transparent 88%);
+      #000 0%,
+      #000 55%,
+      rgba(0,0,0,0.4) 75%,
+      transparent 92%);
     mask-image: linear-gradient(180deg,
-      transparent 0%,
-      #000 6%,
-      #000 50%,
-      rgba(0,0,0,0.4) 72%,
-      transparent 88%);
+      #000 0%,
+      #000 55%,
+      rgba(0,0,0,0.4) 75%,
+      transparent 92%);
     z-index:-2;
     animation: bg-breathe 16s ease-in-out infinite;
   }
@@ -790,8 +788,15 @@
     background:var(--whatsapp);
     display:grid;place-items:center;
     box-shadow:0 10px 30px oklch(75% 0.16 145 / 0.45);
-    transition:transform .25s ease;
+    transition: transform .35s cubic-bezier(.2,.8,.2,1), opacity .35s ease;
+    transform: scale(1) translateY(0);
   }
+  .fab.is-hidden{
+    opacity:0;
+    pointer-events:none;
+    transform: scale(.6) translateY(30px);
+  }
+  .fab.is-hidden::before{display:none}
   .fab::before{
     content:"";position:absolute;inset:-4px;border-radius:50%;
     background:var(--whatsapp);opacity:.4;animation:ping 2s ease infinite;
@@ -1341,6 +1346,20 @@
       el.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
     });
   });
+
+  // ── Ocultar FAB de WhatsApp mientras el hero está visible ──
+  const fab = document.querySelector('.fab');
+  const hero = document.querySelector('header.hero');
+  if (fab && hero && 'IntersectionObserver' in window){
+    fab.classList.add('is-hidden'); // inicia oculto
+    const heroIO = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        // Si más del 25% del hero está visible, ocultar FAB
+        fab.classList.toggle('is-hidden', en.intersectionRatio > 0.25);
+      });
+    }, { threshold: [0, 0.25, 0.5] });
+    heroIO.observe(hero);
+  }
 
   // ── Number counter al entrar viewport ──
   const counters = document.querySelectorAll('[data-count]');
