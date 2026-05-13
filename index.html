@@ -954,11 +954,13 @@
 <header class="hero" id="top">
   <video class="hero-video"
          autoplay muted loop playsinline
-         preload="metadata"
+         preload="auto"
          poster="vdesinglogo.png"
          aria-hidden="true"
          disablepictureinpicture
-         disableremoteplayback>
+         disableremoteplayback
+         x5-playsinline="true"
+         webkit-playsinline="true">
     <source src="videovdesing.mp4" type="video/mp4">
     Tu navegador no soporta video.
   </video>
@@ -1485,18 +1487,45 @@
     });
   });
 
-  // ── Hero video: forzar autoplay + pausar fuera de viewport (ahorra batería) ──
+  // ── Hero video: forzar autoplay con varios fallbacks ──
   const heroVideo = document.querySelector('.hero-video');
   if (heroVideo){
-    // Algunos browsers (iOS Safari especialmente) requieren un nudge programático
-    const tryPlay = () => {
-      const p = heroVideo.play();
-      if (p && p.catch) p.catch(()=>{ /* silencioso, el poster cubre */ });
-    };
-    if (heroVideo.readyState >= 2) tryPlay();
-    else heroVideo.addEventListener('loadeddata', tryPlay, { once: true });
+    // Asegurar atributos críticos vía JS (algunos browsers se "olvidan")
+    heroVideo.muted = true;
+    heroVideo.defaultMuted = true;
+    heroVideo.playsInline = true;
+    heroVideo.autoplay = true;
 
-    // Pausa cuando sale del viewport, reanuda al volver
+    let playAttempts = 0;
+    const tryPlay = () => {
+      playAttempts++;
+      const p = heroVideo.play();
+      if (p && p.then) {
+        p.catch(err => {
+          // Si falla y aún no hemos reintentado mucho, esperar al próximo evento
+          if (playAttempts < 8) setTimeout(tryPlay, 250);
+        });
+      }
+    };
+
+    // Intentar reproducir en múltiples eventos (cada browser dispara diferente)
+    ['loadedmetadata','loadeddata','canplay','canplaythrough'].forEach(evt => {
+      heroVideo.addEventListener(evt, tryPlay, { once: true });
+    });
+
+    // Intento inicial inmediato
+    tryPlay();
+
+    // Fallback final: al primer click/touch del usuario, asegurar play
+    const userKick = () => {
+      tryPlay();
+      document.removeEventListener('click', userKick);
+      document.removeEventListener('touchstart', userKick);
+    };
+    document.addEventListener('click', userKick, { once: true, passive: true });
+    document.addEventListener('touchstart', userKick, { once: true, passive: true });
+
+    // Pausar fuera del viewport, reanudar al volver
     if ('IntersectionObserver' in window){
       const vio = new IntersectionObserver(entries => {
         entries.forEach(en => {
@@ -1506,6 +1535,11 @@
       }, { threshold: 0.1 });
       vio.observe(heroVideo);
     }
+
+    // Reanudar al regresar a la pestaña
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) tryPlay();
+    });
   }
 
   // ── Nav transparente sobre hero, sólido al scrollear ──
