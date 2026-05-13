@@ -380,7 +380,7 @@
   .portfolio-scroll{
     overflow-x: auto;
     overflow-y: visible;
-    scroll-snap-type: x mandatory;
+    scroll-snap-type: x proximity;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: oklch(78% 0.13 80 / 0.4) transparent;
@@ -1084,6 +1084,10 @@
    - Pointer-glow en cards
 ─────────────────────────────────────────────── */
 (()=>{
+  // Forzar scroll a top en cada recarga (evita que scroll-snap del portfolio nos teleporte)
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  if (!location.hash) window.scrollTo(0, 0);
+
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.getElementById('yr').textContent = new Date().getFullYear();
 
