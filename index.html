@@ -608,13 +608,29 @@
   .project .thumb::before{
     content:"";position:absolute;inset:0;
     background: radial-gradient(circle at 30% 20%, oklch(100% 0 0 / 0.12), transparent 60%);
+    z-index:1;
+    pointer-events:none;
   }
   .project .thumb::after{
     content:"";position:absolute;inset:0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     opacity:.06;mix-blend-mode:overlay;pointer-events:none;
+    z-index:2;
   }
-  .thumb-text{position:relative;z-index:2;padding:0 20px}
+  .thumb-text{position:relative;z-index:3;padding:0 20px}
+  /* Logo real del cliente — fill */
+  .thumb-logo{
+    position:absolute;inset:0;
+    width:100%;height:100%;
+    object-fit: contain;
+    padding: 14px;
+    z-index:2;
+    transition: transform .4s cubic-bezier(.2,.8,.2,1), filter .4s ease;
+    filter: drop-shadow(0 6px 18px oklch(0% 0 0 / 0.4));
+  }
+  .project:hover .thumb-logo{
+    transform: scale(1.06);
+  }
   .thumb.samuray{background:linear-gradient(135deg, oklch(28% 0.06 30), oklch(12% 0.04 30));color:oklch(82% 0.1 60)}
   .thumb.reyes{background:linear-gradient(135deg, oklch(45% 0.18 50), oklch(18% 0.1 40));color:oklch(90% 0.12 70)}
   .thumb.cortapelo{background:linear-gradient(135deg, oklch(22% 0.02 80), oklch(28% 0.08 75));color:oklch(80% 0.13 80)}
@@ -1105,9 +1121,9 @@
 <section id="trabajos">
   <div class="container">
     <div class="section-head reveal">
-      <div class="section-tag">Trabajos reales</div>
-      <h2 class="h-reveal">Cosas que ya están vivas, funcionando, en uso.</h2>
-      <p>Todo lo que ves aquí lo hice yo — desde la primera línea hasta el sitio en vivo. Negocios y proyectos reales en Puerto Rico.</p>
+      <div class="section-tag">Portafolio</div>
+      <h2 class="h-reveal">Algunos de mis trabajos.</h2>
+      <p>Cada uno hecho a mano, desde el diseño hasta la publicación. Negocios y proyectos reales operando en Puerto Rico.</p>
     </div>
     <div class="portfolio-hint reveal">
       <span>Desliza para ver →</span>
@@ -1120,7 +1136,7 @@
       <div class="portfolio-rail">
 
         <article class="project">
-          <div class="thumb samuray"><span class="thumb-text">Samuray<br>Tattoo</span></div>
+          <div class="thumb samuray"><img class="thumb-logo" src="logos/samuray.jpg" alt="Samuray Tattoo" loading="lazy"></div>
           <div class="body">
             <div class="role">Cliente activo</div>
             <h3>Estudio de tatuajes</h3>
@@ -1136,7 +1152,7 @@
         </article>
 
         <article class="project">
-          <div class="thumb reyes"><span class="thumb-text">Reyes<br>Gas</span></div>
+          <div class="thumb reyes"><img class="thumb-logo" src="logos/reyes.png" alt="Reyes Gas" loading="lazy"></div>
           <div class="body">
             <div class="role">Entrega · Caguas</div>
             <h3>Pedidos de gas propano</h3>
@@ -1151,7 +1167,7 @@
         </article>
 
         <article class="project">
-          <div class="thumb cortapelo"><span class="thumb-text">Corta<br>Pelo</span></div>
+          <div class="thumb cortapelo"><img class="thumb-logo" src="logos/cortapelo.png" alt="CortaPelo" loading="lazy"></div>
           <div class="body">
             <div class="role">Barbería</div>
             <h3>Reservas para barbería</h3>
@@ -1166,7 +1182,7 @@
         </article>
 
         <article class="project">
-          <div class="thumb ymusic"><span class="thumb-text">Ymusic<br><em style="font-size:.7em">VOID</em></span></div>
+          <div class="thumb ymusic"><img class="thumb-logo" src="logos/ymusic.jpg" alt="Ymusic — VOID" loading="lazy"></div>
           <div class="body">
             <div class="role">Para músicos · Showcase</div>
             <h3>Experiencia de audio inmersiva</h3>
