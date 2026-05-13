@@ -954,9 +954,11 @@
 <header class="hero" id="top">
   <video class="hero-video"
          autoplay muted loop playsinline
-         preload="auto"
+         preload="metadata"
          poster="vdesinglogo.png"
-         aria-label="Video de presentación VDesing">
+         aria-hidden="true"
+         disablepictureinpicture
+         disableremoteplayback>
     <source src="videovdesing.mp4" type="video/mp4">
     Tu navegador no soporta video.
   </video>
@@ -1482,6 +1484,29 @@
       el.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
     });
   });
+
+  // ── Hero video: forzar autoplay + pausar fuera de viewport (ahorra batería) ──
+  const heroVideo = document.querySelector('.hero-video');
+  if (heroVideo){
+    // Algunos browsers (iOS Safari especialmente) requieren un nudge programático
+    const tryPlay = () => {
+      const p = heroVideo.play();
+      if (p && p.catch) p.catch(()=>{ /* silencioso, el poster cubre */ });
+    };
+    if (heroVideo.readyState >= 2) tryPlay();
+    else heroVideo.addEventListener('loadeddata', tryPlay, { once: true });
+
+    // Pausa cuando sale del viewport, reanuda al volver
+    if ('IntersectionObserver' in window){
+      const vio = new IntersectionObserver(entries => {
+        entries.forEach(en => {
+          if (en.isIntersecting) tryPlay();
+          else heroVideo.pause();
+        });
+      }, { threshold: 0.1 });
+      vio.observe(heroVideo);
+    }
+  }
 
   // ── Nav transparente sobre hero, sólido al scrollear ──
   const nav = document.querySelector('nav');
