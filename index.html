@@ -161,117 +161,21 @@
   .nav-cta svg{width:16px;height:16px;fill:#fff}
 
   /* ═══════════════════════════════════════════════════════════
-     BRAND EMBLEM — logo lockup (cubo V + texto, dentro de anillo)
+     BRAND EMBLEM — logo VDesing (imagen real)
   ═══════════════════════════════════════════════════════════ */
   .brand-emblem{
-    width: clamp(150px, 20vw, 200px);
-    aspect-ratio: 1;
-    position:relative;
-    border-radius:50%;
-    display:grid;place-items:center;
-    margin: 0 0 32px;
-    background:
-      radial-gradient(circle at 30% 25%,
-        oklch(20% 0.10 295) 0%,
-        oklch(8% 0.03 290) 70%);
-    box-shadow:
-      inset 0 0 28px oklch(0% 0 0 / 0.7),
-      0 30px 60px oklch(0% 0 0 / 0.4);
+    display:block;
+    width: clamp(260px, 40vw, 400px);
+    height: auto;
+    margin: 0 auto 40px;
+    filter:
+      drop-shadow(0 30px 50px oklch(0% 0 0 / 0.5))
+      drop-shadow(0 0 30px oklch(60% 0.22 305 / 0.25));
     animation: emblem-float 6s ease-in-out infinite;
   }
   @keyframes emblem-float{
     0%, 100% { transform: translateY(0) }
-    50% { transform: translateY(-6px) }
-  }
-  .brand-emblem::before{
-    content:"";
-    position:absolute;
-    inset:-2px;
-    border-radius:50%;
-    background: conic-gradient(from 200deg,
-      oklch(55% 0.22 305) 0%,
-      oklch(78% 0.22 340) 25%,
-      oklch(45% 0.20 290) 55%,
-      oklch(60% 0.22 320) 80%,
-      oklch(55% 0.22 305) 100%);
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-    padding:2px;
-    animation: ring-rotate 8s linear infinite;
-  }
-  @keyframes ring-rotate{ to { transform: rotate(360deg) } }
-  .brand-emblem::after{
-    /* glossy reflection on the ring */
-    content:"";
-    position:absolute;
-    inset:6px;
-    border-radius:50%;
-    background: radial-gradient(circle at 30% 20%,
-      oklch(95% 0.05 320 / 0.15) 0%,
-      transparent 40%);
-    pointer-events:none;
-  }
-  .emblem-inner{
-    display:flex;flex-direction:column;align-items:center;gap:8px;
-    position:relative;z-index:2;
-  }
-  .emblem-cube{
-    width: clamp(60px, 9vw, 84px);
-    aspect-ratio:1;
-    border-radius:22%;
-    background:
-      linear-gradient(135deg,
-        oklch(42% 0.22 305) 0%,
-        oklch(28% 0.15 290) 55%,
-        oklch(52% 0.22 320) 100%);
-    display:grid;place-items:center;
-    position:relative;
-    box-shadow:
-      inset 0 2px 4px oklch(85% 0.10 320 / 0.4),
-      inset 0 -3px 8px oklch(15% 0.10 290 / 0.5),
-      0 6px 14px oklch(0% 0 0 / 0.5);
-  }
-  .emblem-cube::before{
-    /* top glossy highlight */
-    content:"";
-    position:absolute;
-    top:6%;left:10%;right:10%;
-    height:32%;
-    border-radius:50% / 100%;
-    background: linear-gradient(180deg, oklch(95% 0.05 320 / 0.45), transparent);
-    pointer-events:none;
-  }
-  .emblem-cube span{
-    font-family:'Fraunces',serif;
-    font-size: clamp(34px, 5vw, 50px);
-    font-weight:600;
-    font-style:italic;
-    background: linear-gradient(180deg,
-      oklch(96% 0.02 300) 0%,
-      oklch(78% 0.04 300) 38%,
-      oklch(42% 0.06 290) 62%,
-      oklch(82% 0.04 300) 100%);
-    -webkit-background-clip:text;background-clip:text;
-    color:transparent;
-    position:relative;z-index:1;
-    filter: drop-shadow(0 1px 2px oklch(0% 0 0 / 0.6));
-    line-height:1;
-  }
-  .emblem-name{
-    font-family:'Fraunces',serif;
-    font-size: clamp(13px, 1.8vw, 17px);
-    font-weight:500;
-    letter-spacing:.04em;
-    background: linear-gradient(180deg,
-      oklch(96% 0.02 300) 0%,
-      oklch(72% 0.04 300) 50%,
-      oklch(42% 0.06 290) 100%);
-    -webkit-background-clip:text;background-clip:text;
-    color:transparent;
-    filter: drop-shadow(0 1px 1px oklch(0% 0 0 / 0.5));
+    50% { transform: translateY(-8px) }
   }
 
   /* ═══════════════════════════════════════════════════════════
@@ -838,8 +742,7 @@
 <!-- NAV ─────────────────────────────────────────── -->
 <nav>
   <div class="container nav-row">
-    <a class="brand" href="#top" data-cursor>
-      <span class="mark"></span>
+    <a class="brand" href="#top">
       <span>V<span style="color:var(--gold)">Desing</span></span>
     </a>
     <a class="nav-cta" href="https://wa.me/17879449031?text=Hola%20Víctor%2C%20quiero%20una%20página%20web" target="_blank" rel="noopener" data-cursor>
@@ -852,12 +755,7 @@
 <!-- HERO ────────────────────────────────────────── -->
 <header class="hero" id="top">
   <div class="container hero-inner">
-    <div class="brand-emblem" aria-label="Logo VDesing">
-      <div class="emblem-inner">
-        <div class="emblem-cube"><span>V</span></div>
-        <div class="emblem-name">VDesing</div>
-      </div>
-    </div>
+    <img class="brand-emblem" src="vdesinglogo.png" alt="VDesing — logo" />
     <span class="eyebrow"><span class="dot"></span>Disponible para nuevos proyectos</span>
     <h1>
       <span class="word">Tu</span> <span class="word">sitio,</span><br>
