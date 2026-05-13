@@ -471,6 +471,67 @@
   @keyframes hint-bob{ 50% { transform: translateX(6px) } }
 
   /* ═══════════════════════════════════════════════════════════
+     TESTIMONIOS
+  ═══════════════════════════════════════════════════════════ */
+  .testimonials{
+    background: linear-gradient(180deg, transparent, oklch(15% 0.015 280 / 0.5), transparent);
+  }
+  .testimonial-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;
+  }
+  .testimonial{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:30px 26px 26px;
+    position:relative;
+    display:flex;flex-direction:column;
+    transition: transform .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .testimonial:hover{
+    transform:translateY(-4px);
+    border-color: oklch(78% 0.13 80 / 0.3);
+    background:var(--surface-2);
+  }
+  .testimonial .quote-mark{
+    position:absolute;top:-18px;left:22px;
+    font-family:'Fraunces',serif;font-size:80px;line-height:1;
+    color: var(--gold);
+    background: var(--bg);
+    width:46px;height:46px;border-radius:50%;
+    display:grid;place-items:center;
+    border:1px solid oklch(78% 0.13 80 / 0.3);
+    padding-top:24px;
+  }
+  .stars{
+    display:flex;gap:3px;margin-bottom:14px;color:var(--gold);
+    font-size:15px;
+  }
+  .stars svg{width:16px;height:16px;fill:currentColor}
+  .testimonial-text{
+    color:var(--text);font-size:15.5px;line-height:1.55;
+    margin:0 0 22px;
+    flex:1;
+    font-style:italic;
+    font-family:'Fraunces',serif;font-weight:400;
+  }
+  .author{display:flex;align-items:center;gap:12px}
+  .avatar{
+    width:44px;height:44px;border-radius:50%;
+    display:grid;place-items:center;
+    font-family:'Fraunces',serif;font-weight:500;font-size:18px;
+    color:#0a0a0c;
+    flex-shrink:0;
+    box-shadow: 0 4px 14px oklch(0% 0 0 / 0.3);
+  }
+  .avatar.a1{background:linear-gradient(135deg, oklch(78% 0.13 80), oklch(60% 0.18 30))}
+  .avatar.a2{background:linear-gradient(135deg, oklch(70% 0.18 200), oklch(60% 0.16 250))}
+  .avatar.a3{background:linear-gradient(135deg, oklch(70% 0.22 340), oklch(65% 0.23 300))}
+  .author-info{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .author-name{font-weight:600;font-size:14.5px;color:var(--text)}
+  .author-role{font-size:12.5px;color:var(--text-faint);font-family:'JetBrains Mono',monospace;letter-spacing:.04em}
+
+  /* ═══════════════════════════════════════════════════════════
      PRECIOS
   ═══════════════════════════════════════════════════════════ */
   .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
@@ -915,6 +976,78 @@
         </article>
 
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS ──────────────────────────────── -->
+<section class="testimonials" id="testimonios">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Lo que dicen</div>
+      <h2 class="h-reveal">Personas reales. Negocios reales.</h2>
+      <p>No son influencers ni pagados. Son los dueños y artistas detrás de los proyectos que viste arriba.</p>
+    </div>
+
+    <div class="testimonial-grid stagger">
+
+      <div class="testimonial">
+        <div class="quote-mark">"</div>
+        <div class="stars">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+        </div>
+        <p class="testimonial-text">Antes vivía contestando DMs todo el día. Ahora la gente me llega por WhatsApp con la fecha ya pensada y el diseño que quieren. Me cambió cómo trabajo.</p>
+        <div class="author">
+          <div class="avatar a1">S</div>
+          <div class="author-info">
+            <span class="author-name">Samuel</span>
+            <span class="author-role">Samuray Tattoo</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <div class="quote-mark">"</div>
+        <div class="stars">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+        </div>
+        <p class="testimonial-text">Necesitaba algo serio que diera confianza al valorar una propiedad. Víctor entendió el negocio sin que se lo explicara dos veces y entregó algo que se ve profesional de verdad.</p>
+        <div class="author">
+          <div class="avatar a2">J</div>
+          <div class="author-info">
+            <span class="author-name">Julio</span>
+            <span class="author-role">Bienes raíces · IslaValora</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <div class="quote-mark">"</div>
+        <div class="stars">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+        </div>
+        <p class="testimonial-text">Quería algo que se viera distinto a todo lo demás. Víctor hizo que mi música se sintiera como una experiencia completa, no como una página web cualquiera.</p>
+        <div class="author">
+          <div class="avatar a3">N</div>
+          <div class="author-info">
+            <span class="author-name">Ninoshka</span>
+            <span class="author-role">Ymusic · Artista</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
