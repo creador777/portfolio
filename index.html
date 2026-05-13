@@ -960,7 +960,10 @@
          disablepictureinpicture
          disableremoteplayback
          x5-playsinline="true"
-         webkit-playsinline="true">
+         webkit-playsinline="true"
+         x5-video-player-type="h5-page"
+         x-webkit-airplay="allow">
+    <source src="videovdesing-mobile.mp4" type="video/mp4" media="(max-width: 768px)">
     <source src="videovdesing.mp4" type="video/mp4">
     Tu navegador no soporta video.
   </video>
@@ -1487,45 +1490,54 @@
     });
   });
 
-  // ── Hero video: forzar autoplay con varios fallbacks ──
+  // ── Hero video: autoplay agresivo con fallbacks para mobile ──
   const heroVideo = document.querySelector('.hero-video');
   if (heroVideo){
-    // Asegurar atributos críticos vía JS (algunos browsers se "olvidan")
+    const isMobile = matchMedia('(max-width: 768px)').matches || /iPhone|iPad|Android/i.test(navigator.userAgent);
+
+    // Reforzar atributos vía JS (algunos browsers ignoran el HTML)
     heroVideo.muted = true;
     heroVideo.defaultMuted = true;
     heroVideo.playsInline = true;
-    heroVideo.autoplay = true;
+    heroVideo.setAttribute('muted','');
+    heroVideo.setAttribute('playsinline','');
+    heroVideo.volume = 0;
 
-    let playAttempts = 0;
+    let attempts = 0;
     const tryPlay = () => {
-      playAttempts++;
+      attempts++;
+      heroVideo.muted = true;       // por si alguien lo desmuteó
       const p = heroVideo.play();
-      if (p && p.then) {
-        p.catch(err => {
-          // Si falla y aún no hemos reintentado mucho, esperar al próximo evento
-          if (playAttempts < 8) setTimeout(tryPlay, 250);
-        });
-      }
+      if (p && p.catch) p.catch(() => {
+        if (attempts < 15) setTimeout(tryPlay, 200);
+      });
     };
 
-    // Intentar reproducir en múltiples eventos (cada browser dispara diferente)
-    ['loadedmetadata','loadeddata','canplay','canplaythrough'].forEach(evt => {
-      heroVideo.addEventListener(evt, tryPlay, { once: true });
-    });
+    // Intentar en cada evento de carga
+    ['loadstart','loadedmetadata','loadeddata','canplay','canplaythrough','progress']
+      .forEach(evt => heroVideo.addEventListener(evt, tryPlay));
 
-    // Intento inicial inmediato
+    // Intento inmediato
     tryPlay();
 
-    // Fallback final: al primer click/touch del usuario, asegurar play
+    // Fallback CRÍTICO para mobile: al primer touch/scroll/click del usuario
+    const userEvents = ['touchstart','touchend','click','scroll','pointerdown'];
     const userKick = () => {
+      heroVideo.muted = true;
       tryPlay();
-      document.removeEventListener('click', userKick);
-      document.removeEventListener('touchstart', userKick);
+      userEvents.forEach(e => document.removeEventListener(e, userKick));
     };
-    document.addEventListener('click', userKick, { once: true, passive: true });
-    document.addEventListener('touchstart', userKick, { once: true, passive: true });
+    userEvents.forEach(e => document.addEventListener(e, userKick, { once: true, passive: true, capture: true }));
 
-    // Pausar fuera del viewport, reanudar al volver
+    // Mobile específico: forzar carga + play tras pequeño delay
+    if (isMobile){
+      heroVideo.load();
+      setTimeout(tryPlay, 100);
+      setTimeout(tryPlay, 500);
+      setTimeout(tryPlay, 1500);
+    }
+
+    // Pausar fuera del viewport
     if ('IntersectionObserver' in window){
       const vio = new IntersectionObserver(entries => {
         entries.forEach(en => {
@@ -1536,10 +1548,12 @@
       vio.observe(heroVideo);
     }
 
-    // Reanudar al regresar a la pestaña
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) tryPlay();
     });
+
+    // Si después de 3 segundos sigue sin reproducir, el poster se queda visible
+    // (no es un fail visual — el logo cubre el espacio)
   }
 
   // ── Nav transparente sobre hero, sólido al scrollear ──
